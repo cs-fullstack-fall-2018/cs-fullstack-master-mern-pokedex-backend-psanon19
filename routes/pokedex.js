@@ -5,12 +5,14 @@ const pngLocation = '/images';
 
 // Get the references we will need
 const router = express.Router();
-// router.use(function (req, res, next) {
-//     res.header("Access-Control-Allow-Origin", "*");
-//     res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
-//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-//     next();
-// });
+
+const app = express();
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    next();
+});
 
 function setPokemons(data) {
     const pokemons = data.map(pokemon => {
@@ -18,13 +20,14 @@ function setPokemons(data) {
         pokemon.id = url.substring(34, url.length - 1);
         pokemon.image = `${pngLocation}/${pokemon.id}.png`;
         return pokemon;
-    })
+    });
 
     return pokemons;
 };
 
 /* GET all the pokemon */
 router.get('/', (req, res) => {
+    console.log(`Sending a request to ${pokeapi}`)
     request(pokeapi, function (err, response, body) {
         if (err) {
             throw err; // If we get an error then bail
@@ -39,7 +42,7 @@ router.get('/', (req, res) => {
 /* GET a specific pokemon */
 router.get('/:id', (req, res) => {
     const reqUri = `${pokeapi}/${req.params.id}/`;
-    console.log(`Sending request: ${reqUri}`);
+    console.log(`Sending request to ${reqUri}`);
 
     request(reqUri, function (err, response, body) {
         if (err) {
