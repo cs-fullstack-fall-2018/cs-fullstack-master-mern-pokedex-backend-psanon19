@@ -6,7 +6,5 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Pokedex Node.JS' });
 });
 
-
-
 // Export the routes
 module.exports = router;

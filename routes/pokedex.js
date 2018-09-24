@@ -6,13 +6,6 @@ const pngLocation = '/images';
 // Get the references we will need
 const router = express.Router();
 
-const app = express();
-app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-    next();
-});
 
 function setPokemons(data) {
     const pokemons = data.map(pokemon => {
@@ -39,19 +32,6 @@ router.get('/', (req, res) => {
     });
 });
 
-/* GET a specific pokemon */
-router.get('/:id', (req, res) => {
-    const reqUri = `${pokeapi}/${req.params.id}/`;
-    console.log(`Sending request to ${reqUri}`);
-
-    request(reqUri, function (err, response, body) {
-        if (err) {
-            throw err; // If we get an error then bail
-        }
-        // Use Express to send the JSON back to the client in the web response
-        res.send(JSON.parse(body));
-    });
-});
 
 // Export the routes
 module.exports = router;
