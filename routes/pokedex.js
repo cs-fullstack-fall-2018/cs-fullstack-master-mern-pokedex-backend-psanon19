@@ -36,6 +36,22 @@ router.get('/', (req, res) => {
     });
 });
 
+//Get Pokemon by ID
+router.get('/:id',(req, res) => {
+    let newId = (pokeapi+'/'+req.params.id);
+    console.log("new id is here: "+newId);
+    request(newId, function (err, response, body) {
+        if (err) {
+            throw err; // If we get an error then bail
+        }
+        // Use Express to send the JSON back to the client in the web response
+        let jsonResp = JSON.parse(body);
+        // (setPokemons(jsonResp.results, req));
+        res.send(jsonResp);
+
+    });
+});
+
 
 // Export the routes
 module.exports = router;
